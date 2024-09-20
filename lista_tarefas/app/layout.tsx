@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import '../styles/globals.scss';
+import '/src/styles/globals.scss';
 import { ReactNode } from 'react';
 
 export const metadata: Metadata = {
     title: 'Lista de tarefas',
-    description: 'Aplicativo para gerenciar uma lista de tarefas',
+    description: 'Aplicativo para gerenciar uma lista de tarefas'
 };
 
 const RootLayout = ({ children }: { children: ReactNode }) => {
