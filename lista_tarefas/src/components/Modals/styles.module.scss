@@ -127,3 +127,25 @@
     font-size: 14px;
     margin-top: 8px;
 }
+
+@media (max-width: 520px) {
+    .modal {
+        position: static;
+        transform: none;
+        width: auto!important;
+        max-width: 100%;
+
+        box-shadow: none;
+        height: 100vh;
+
+        padding: 24px;
+    }
+
+    .modalBackdrop {
+        background-color: #fff;
+    }
+
+    .modalFooter {
+        flex-direction: column;
+    }
+}

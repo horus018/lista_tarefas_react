@@ -3,3 +3,9 @@
     gap: 11px;
     align-items: center;
 }
+
+@media (max-width: 800px) {
+    .logo {
+        width: 100%;
+    }
+}

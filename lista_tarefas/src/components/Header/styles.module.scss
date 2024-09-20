@@ -25,3 +25,19 @@
 
     color: rgba(0, 0, 0, 0.54);
 }
+
+@media (max-width: 800px) {
+    .welcomeMessage {
+        width: 100%;
+    }
+}
+
+@media (max-width: 520px) {
+    .header {
+        margin: 0 24px 24px 24px;
+    }
+
+    .welcomeMessage {
+        font-size: 16px;
+    }
+}
