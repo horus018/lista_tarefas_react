@@ -9,33 +9,57 @@ interface AddTaskModalProps {
 
 const AddTaskModal: React.FC<AddTaskModalProps> = ({ isOpen, onClose, onAdd }) => {
     const [description, setDescription] = useState('');
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
     const handleAddClick = () => {
+        if (!description.trim()) {
+            setErrorMessage('Título da tarefa não pode estar vazio');
+            return;
+        }
+
         onAdd(description);
         setDescription('');
+        setErrorMessage(null);
         onClose();
+    };
+
+    const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
+        if (e.target === e.currentTarget) {
+            onClose();
+        }
     };
 
     if (!isOpen) return null;
 
     return (
-        <div className={commonStyles.modalBackdrop}>
-            <div className={commonStyles.modal}>
+        <div className={commonStyles.modalBackdrop} onClick={handleBackdropClick}>
+            <div className={commonStyles.modal} onClick={(e) => e.stopPropagation()}>
                 <div className={commonStyles.modalHeader}>
-                    <h2 className={commonStyles.modalTitle}>Adicionar Tarefa</h2>
-                    <button className={commonStyles.modalClose} onClick={onClose}>X</button>
+                    <h2 className={commonStyles.modalTitle}>Nova Tarefa</h2>
                 </div>
                 <div className={commonStyles.modalBody}>
+                    <label>Título</label>
                     <input
                         type="text"
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
-                        placeholder="Descrição da tarefa"
+                        placeholder="Digite"
                     />
+                    {errorMessage && <p className={commonStyles.errorMessage}>{errorMessage}</p>}
                 </div>
                 <div className={commonStyles.modalFooter}>
-                    <button className={commonStyles.modalButton + ' ' + commonStyles['modalButton--cancel']} onClick={onClose}>Cancelar</button>
-                    <button className={commonStyles.modalButton + ' ' + commonStyles['modalButton--primary']} onClick={handleAddClick}>Adicionar</button>
+                    <button
+                        className={commonStyles.modalButton + ' ' + commonStyles['modalButton--cancel']}
+                        onClick={onClose}
+                    >
+                        Cancelar
+                    </button>
+                    <button
+                        className={commonStyles.modalButton + ' ' + commonStyles['modalButton--primary']}
+                        onClick={handleAddClick}
+                    >
+                        Adicionar
+                    </button>
                 </div>
             </div>
         </div>

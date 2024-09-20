@@ -1,22 +1,27 @@
 import React from 'react';
 import commonStyles from '../styles.module.scss';
 
-interface DeleteConfirmModalProps {
+interface RemoveTaskModalProps {
     isOpen: boolean;
     onClose: () => void;
     onConfirm: () => void;
     message: string;
 }
 
-const DeleteConfirmModal: React.FC<DeleteConfirmModalProps> = ({ isOpen, onClose, onConfirm, message }) => {
+const RemoveTaskModal: React.FC<RemoveTaskModalProps> = ({ isOpen, onClose, onConfirm, message }) => {
+    const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
+        if (e.target === e.currentTarget) {
+            onClose();
+        }
+    };
+
     if (!isOpen) return null;
 
     return (
-        <div className={commonStyles.modalBackdrop}>
-            <div className={commonStyles.modal}>
+        <div className={commonStyles.modalBackdrop} onClick={handleBackdropClick}>
+            <div className={commonStyles.modal} onClick={(e) => e.stopPropagation()}>
                 <div className={commonStyles.modalHeader}>
-                    <h2 className={commonStyles.modalTitle}>Confirmar Remoção</h2>
-                    <button className={commonStyles.modalClose} onClick={onClose}>X</button>
+                    <h2 className={commonStyles.modalTitle}>Deletar tarefa</h2>
                 </div>
                 <div className={commonStyles.modalBody}>
                     <p>{message}</p>
@@ -30,4 +35,4 @@ const DeleteConfirmModal: React.FC<DeleteConfirmModalProps> = ({ isOpen, onClose
     );
 };
 
-export default DeleteConfirmModal;
+export default RemoveTaskModal;

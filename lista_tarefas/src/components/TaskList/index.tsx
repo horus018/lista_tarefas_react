@@ -3,6 +3,7 @@ import TaskItem from '@/components/TaskItem';
 import styles from './styles.module.scss';
 import { useState } from 'react';
 import AddTaskModal from '../Modals/AddTaskModal';
+import RemoveTaskModal from '../Modals/RemoveTaskModal';
 
 interface Task {
     id: number;
@@ -18,6 +19,8 @@ export default function TaskList() {
         { id: 4, done: true, description: 'Levar o lixo para fora' },
     ]);
     const [isAddModalOpen, setAddModalOpen] = useState(false);
+    const [isRemoveModalOpen, setRemoveModalOpen] = useState(false);
+    const [taskToRemove, setTaskToRemove] = useState<Task | null>(null);
 
     const addTask = (description: string) => {
         const newTask = {
@@ -28,8 +31,12 @@ export default function TaskList() {
         setTasks([...tasks, newTask]);
     };
 
-    const removeTask = (id: number) => {
-        setTasks(tasks.filter(task => task.id !== id));
+    const confirmRemoveTask = () => {
+        if (taskToRemove) {
+            setTasks(tasks.filter(task => task.id !== taskToRemove.id));
+            setTaskToRemove(null);
+            setRemoveModalOpen(false);
+        }
     };
 
     const toggleTaskDone = (id: number) => {
@@ -42,6 +49,11 @@ export default function TaskList() {
         setTasks(updatedTasks);
     };
 
+    const openRemoveModal = (task: Task) => {
+        setTaskToRemove(task);
+        setRemoveModalOpen(true);
+    };
+
     const completedTasks = tasks.filter(task => task.done);
     const pendingTasks = tasks.filter(task => !task.done);
 
@@ -52,36 +64,45 @@ export default function TaskList() {
                 onClose={() => setAddModalOpen(false)}
                 onAdd={addTask}
             />
-            <>
 
-                <div className={styles.taskListParent}>
-                    <div className={styles.taskList}>
-                        <h2 className={styles.tasksMessage}>Suas tarefas de hoje</h2>
+            <RemoveTaskModal
+                isOpen={isRemoveModalOpen}
+                onClose={() => setRemoveModalOpen(false)}
+                onConfirm={confirmRemoveTask}
+                message="Tem certeza que você deseja deletar essa tarefa?"
+            />
 
-                        {tasks.length === 0 && <h2 className={styles.tasksMessage}>Você não possui tarefas para hoje</h2>}
-                        {pendingTasks.map(task => (
-                            <TaskItem
-                                key={task.id}
-                                task={task}
-                                onRemove={removeTask}
-                                onToggleDone={toggleTaskDone}
-                            />
-                        ))}
+            <div className={styles.taskListParent}>
+                <div className={styles.taskList}>
+                    <h2 className={styles.tasksMessage}>Suas tarefas de hoje</h2>
 
-                        {completedTasks.length > 0 && <h2 className={styles.tasksMessage}>Tarefas finalizadas</h2>}
+                    {tasks.length === 0 && <h2 className={styles.tasksMessage}>Você não possui tarefas para hoje</h2>}
+                    {pendingTasks.map(task => (
+                        <TaskItem
+                            key={task.id}
+                            task={task}
+                            onRemove={() => openRemoveModal(task)}
+                            onToggleDone={toggleTaskDone}
+                        />
+                    ))}
 
-                        {completedTasks.map(task => (
-                            <TaskItem
-                                key={task.id}
-                                task={task}
-                                onRemove={removeTask}
-                                onToggleDone={toggleTaskDone}
-                            />
-                        ))}
-                    </div>
-                    <button className={styles.addTaskButton} onClick={() => setAddModalOpen(true)}>Adicionar nova tarefa</button>
+                    {/*Mostrar/não mostrar a mensagem baseado no número de tasks*/}  
+                    {/* {completedTasks.length > 0 && <h2 className={styles.tasksMessage}>Tarefas finalizadas</h2>} */}
+                    <h2 className={styles.tasksMessage}>Tarefas finalizadas</h2>
+
+                    {completedTasks.map(task => (
+                        <TaskItem
+                            key={task.id}
+                            task={task}
+                            onRemove={() => openRemoveModal(task)}
+                            onToggleDone={toggleTaskDone}
+                        />
+                    ))}
                 </div>
-            </>
+                <button className={styles.addTaskButton} onClick={() => setAddModalOpen(true)}>
+                    Adicionar nova tarefa
+                </button>
+            </div>
         </>
     );
 }
