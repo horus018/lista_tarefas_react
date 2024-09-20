@@ -2,8 +2,16 @@
 
 :root {
     --primary-color: #0070f3;
-    --background-color: #f0f0f0;
+    --background-color: #fff;
     --text-color: #333;
+}
+
+html,
+body {
+    height: 100%;
+    width: 100%;
+
+    user-select: none;
 }
 
 body {
@@ -12,4 +20,38 @@ body {
     padding: 0;
     background-color: var(--background-color);
     color: var(--text-color);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: "Inter Tight", system-ui;
+    margin: 0;
+    padding: 0;
+}
+
+button {
+    height: 51px;
+
+    font-family: 'Inter Tight';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
+    letter-spacing: -0.02em;
+
+    padding: 0;
+
+    border: none;
+    border-radius: 8px;
+
+    transition: .3s;
+
+    &:hover {
+        cursor: pointer;
+        opacity: .6;
+    }
 }

@@ -38,13 +38,14 @@ export default function TaskItem({ task, onRemove, onToggleDone }: TaskItemProps
 
     return (
         <div className={styles.taskItem}>
-            <div>
+            <div onClick={handleCheckboxChange} className={styles.checkboxContainer}>
                 <input
                     type="checkbox"
                     onChange={handleCheckboxChange}
                     checked={task.done}
+                    className={styles.checkbox}
                 />
-                <label>{task.description}</label>
+                <label className={task.done ? styles.taskDone : ''}>{task.description}</label>
             </div>
             <button onClick={handleRemoveClick} className={styles.trashButton}>
                 <TrashIcon />

@@ -1,15 +1,70 @@
 .taskItem {
     display: flex;
     align-items: center;
-    margin-bottom: 10px;
 
-    label {
-        margin-left: 10px;
+    width: 100%;
+    border: 1px dashed #D7DDE9;
+    border-radius: 8px;
+    margin: 12px 0;
+
+    div {
+        width: 100%;
+        padding: 16px;
+        gap: 16px;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+
+        input[type="checkbox"] {
+            width: 24px;
+            height: 24px;
+            appearance: none;
+            background: #FFFFFF;
+            border: 1px solid #D7DDE9;
+            border-radius: 4px;
+            position: relative;
+            cursor: pointer;
+
+            &:checked {
+                background: #A0DCF6;
+                border: 1px solid #0796D3;
+                &::after {
+                    content: '';
+                    position: absolute;
+                    left: 7px;
+                    top: 2px;
+                    width: 6px;
+                    height: 12px;
+                    border: solid #0796D3;
+                    border-width: 0 1.5px 1.5px 0;
+                    transform: rotate(45deg);
+                }
+            }
+        }
+    }
+
+    button {
+        border: none;
+        background-color: transparent;
+        height: auto;
+        padding: 16px;
+    }
+
+    transition: .3s;
+
+    &:hover {
+        background-color: #F7F9FD;
+        border: 1px solid #F7F9FD;
+
+        div,
+        label,
+        input {
+            cursor: pointer;
+        }
     }
 }
 
-@media (max-width: 600px) {
-    .app-container {
-        padding: 10px;
-    }
+.taskDone {
+    color: #0000008A;
+    text-decoration: line-through;
 }

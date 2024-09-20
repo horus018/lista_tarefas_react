@@ -53,33 +53,35 @@ export default function TaskList() {
                 onAdd={addTask}
             />
             <>
-                <h2 className={styles.noTasksMessage}>Suas tarefas de hoje</h2>
 
-                {tasks.length === 0 && <h2 className={styles.noTasksMessage}>Você não possui tarefas para hoje</h2>}
+                <div className={styles.taskListParent}>
+                    <div className={styles.taskList}>
+                        <h2 className={styles.tasksMessage}>Suas tarefas de hoje</h2>
 
-                <div className={styles.taskList}>
-                    {pendingTasks.map(task => (
-                        <TaskItem
-                            key={task.id}
-                            task={task}
-                            onRemove={removeTask}
-                            onToggleDone={toggleTaskDone}
-                        />
-                    ))}
+                        {tasks.length === 0 && <h2 className={styles.tasksMessage}>Você não possui tarefas para hoje</h2>}
+                        {pendingTasks.map(task => (
+                            <TaskItem
+                                key={task.id}
+                                task={task}
+                                onRemove={removeTask}
+                                onToggleDone={toggleTaskDone}
+                            />
+                        ))}
 
-                    {completedTasks.length > 0 && <h3>Tarefas finalizadas</h3>}
+                        {completedTasks.length > 0 && <h2 className={styles.tasksMessage}>Tarefas finalizadas</h2>}
 
-                    {completedTasks.map(task => (
-                        <TaskItem
-                            key={task.id}
-                            task={task}
-                            onRemove={removeTask}
-                            onToggleDone={toggleTaskDone}
-                        />
-                    ))}
+                        {completedTasks.map(task => (
+                            <TaskItem
+                                key={task.id}
+                                task={task}
+                                onRemove={removeTask}
+                                onToggleDone={toggleTaskDone}
+                            />
+                        ))}
+                    </div>
+                    <button className={styles.addTaskButton} onClick={() => setAddModalOpen(true)}>Adicionar nova tarefa</button>
                 </div>
             </>
-            <button onClick={() => setAddModalOpen(true)}>Adicionar nova tarefa</button>
         </>
     );
 }
