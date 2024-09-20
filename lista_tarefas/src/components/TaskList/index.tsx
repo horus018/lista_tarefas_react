@@ -18,17 +18,19 @@ export default function TaskList() {
         { id: 3, done: false, description: 'Lavar a louça' },
         { id: 4, done: true, description: 'Levar o lixo para fora' },
     ]);
+    const [nextId, setNextId] = useState(5);
     const [isAddModalOpen, setAddModalOpen] = useState(false);
     const [isRemoveModalOpen, setRemoveModalOpen] = useState(false);
     const [taskToRemove, setTaskToRemove] = useState<Task | null>(null);
 
     const addTask = (description: string) => {
         const newTask = {
-            id: tasks.length + 1,
+            id: nextId,
             done: false,
             description,
         };
         setTasks([...tasks, newTask]);
+        setNextId(nextId + 1);
     };
 
     const confirmRemoveTask = () => {
@@ -40,12 +42,9 @@ export default function TaskList() {
     };
 
     const toggleTaskDone = (id: number) => {
-        const updatedTasks = tasks.map(task => {
-            if (task.id === id) {
-                return { ...task, done: !task.done };
-            }
-            return task;
-        });
+        const updatedTasks = tasks.map(task => 
+            task.id === id ? { ...task, done: !task.done } : task
+        );
         setTasks(updatedTasks);
     };
 
@@ -86,10 +85,7 @@ export default function TaskList() {
                         />
                     ))}
 
-                    {/*Mostrar/não mostrar a mensagem baseado no número de tasks*/}  
-                    {/* {completedTasks.length > 0 && <h2 className={styles.tasksMessage}>Tarefas finalizadas</h2>} */}
                     <h2 className={styles.tasksMessage}>Tarefas finalizadas</h2>
-
                     {completedTasks.map(task => (
                         <TaskItem
                             key={task.id}

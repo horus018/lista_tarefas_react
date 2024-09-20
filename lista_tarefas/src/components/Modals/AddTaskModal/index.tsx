@@ -10,8 +10,11 @@ interface AddTaskModalProps {
 const AddTaskModal: React.FC<AddTaskModalProps> = ({ isOpen, onClose, onAdd }) => {
     const [description, setDescription] = useState('');
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
+    const [isTouched, setIsTouched] = useState(false);
 
     const handleAddClick = () => {
+        setIsTouched(true);
+
         if (!description.trim()) {
             setErrorMessage('Título da tarefa não pode estar vazio');
             return;
@@ -20,6 +23,7 @@ const AddTaskModal: React.FC<AddTaskModalProps> = ({ isOpen, onClose, onAdd }) =
         onAdd(description);
         setDescription('');
         setErrorMessage(null);
+        setIsTouched(false);
         onClose();
     };
 
@@ -45,7 +49,10 @@ const AddTaskModal: React.FC<AddTaskModalProps> = ({ isOpen, onClose, onAdd }) =
                         onChange={(e) => setDescription(e.target.value)}
                         placeholder="Digite"
                     />
-                    {errorMessage && <p className={commonStyles.errorMessage}>{errorMessage}</p>}
+                    
+                    {isTouched && !description.trim() && (
+                        <p className={commonStyles.errorMessage}>{errorMessage}</p>
+                    )}
                 </div>
                 <div className={commonStyles.modalFooter}>
                     <button
