@@ -1,2 +1,3 @@
 # lista_tarefas_react
-This side project will help me out develop my skills with react and typescript while using next
+Simple list made with typescript and Next.js
+Deployed in vercel for a company interview, check it out: https://lista-tarefas-react-two.vercel.app/
